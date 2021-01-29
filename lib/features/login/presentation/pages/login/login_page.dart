@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:login_lucasian/models/login_request.dart';
-import 'package:login_lucasian/ui/pages/login/widgets/boton_azul.dart';
-import 'package:login_lucasian/ui/pages/login/widgets/custom_input.dart';
+import 'package:login_lucasian/features/login/domain/models/login_request.dart';
+import 'package:login_lucasian/features/login/presentation/pages/login/widgets/submit_button.dart';
+import 'package:login_lucasian/features/login/presentation/pages/login/widgets/custom_input.dart';
 import 'package:provider/provider.dart';
 
 import 'login_presenter.dart';
@@ -90,7 +90,7 @@ class __FormState extends State<_Form> {
                       : 'La contraseña es requerida y no puede tener más de 15 caracteres',
                   isPassword: true,
                 ),
-                BotonAzul(
+                SubmitButton(
                     text: 'Ingresar',
                     onPressed: !loginPresenter.isValidEmail ||
                             !loginPresenter.isValidPassword

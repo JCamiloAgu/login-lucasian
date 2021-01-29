@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_lucasian/ui/pages/login/login_page.dart';
-import 'package:login_lucasian/ui/pages/welcome/welcome_page.dart';
-
+import 'features/login/presentation/pages/login/login_page.dart';
+import 'features/welcome/presentation/pages/welcome/welcome_page.dart';
 import 'injector/dependency_injector.dart' as injector;
 
 void main() async {

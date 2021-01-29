@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:login_lucasian/domain/use_cases/login_use_case_contract.dart';
-import 'package:login_lucasian/domain/use_cases/use_case_to_base_64.dart';
-import 'package:login_lucasian/models/login_request.dart';
-import 'package:login_lucasian/ui/pages/login/login_response.dart';
+import 'package:login_lucasian/features/login/domain/models/login_request.dart';
+import 'package:login_lucasian/features/login/domain/use_cases/login_use_case_contract.dart';
+import 'package:login_lucasian/features/login/domain/use_cases/use_case_to_base_64.dart';
+
 
 import 'login_form_validator/login_form_validator.dart';
+import 'login_response.dart';
 
 class LoginPresenter extends ChangeNotifier {
   final LoginUseCaseContract loginUseCaseContract;
