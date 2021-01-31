@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:login_lucasian/features/login/domain/models/login_request.dart';
+import 'package:login_lucasian/features/login/domain/request/login_request.dart';
 import 'package:login_lucasian/features/login/domain/use_cases/login_use_case_contract.dart';
 import 'package:login_lucasian/features/login/domain/use_cases/use_case_to_base_64.dart';
 
-
+import '../../../domain/response/login_response.dart';
 import 'login_form_validator/login_form_validator.dart';
-import 'login_response.dart';
 
 class LoginPresenter extends ChangeNotifier {
   final LoginUseCaseContract loginUseCaseContract;
@@ -70,20 +69,35 @@ class LoginPresenter extends ChangeNotifier {
 
   bool validateFields(LoginRequest loginRequest) {
     bool isValidLoginRequest = true;
-    if (!loginFormValidator.isValidEmail(loginRequest.email)) {
-      isValidEmail = false;
+
+    if (!validateEmail(loginRequest.email)) {
       isValidLoginRequest = false;
-    } else {
-      isValidEmail = true;
     }
 
-    if (!loginFormValidator.isValidPassword(loginRequest.password)) {
-      isValidPassword = false;
+    if (!validatePassword(loginRequest.password)) {
       isValidLoginRequest = false;
-    } else {
-      isValidPassword = true;
     }
 
     return isValidLoginRequest;
+  }
+
+  bool validateEmail(String email) {
+    if (!loginFormValidator.isValidEmail(email)) {
+      isValidEmail = false;
+      return false;
+    } else {
+      isValidEmail = true;
+    }
+    return true;
+  }
+
+  bool validatePassword(String password) {
+    if (!loginFormValidator.isValidPassword(password)) {
+      isValidPassword = false;
+      return false;
+    } else {
+      isValidPassword = true;
+    }
+    return true;
   }
 }

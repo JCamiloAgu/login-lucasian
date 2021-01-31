@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:login_lucasian/features/login/domain/models/login_request.dart';
+import 'package:login_lucasian/features/login/domain/request/login_request.dart';
 import 'package:login_lucasian/features/login/presentation/pages/login/widgets/submit_button.dart';
 import 'package:login_lucasian/features/login/presentation/pages/login/widgets/custom_input.dart';
 import 'package:provider/provider.dart';
@@ -106,6 +106,14 @@ class __FormState extends State<_Form> {
           );
   }
 
+  void _checkLoginStatus(LoginPresenter loginPresenter) {
+    if (loginPresenter.isLoginOk != null && !loginPresenter.isLoginOk) {
+      _showAlertBadCredentials(loginPresenter);
+    } else {
+      Navigator.pushNamed(context, 'welcome');
+    }
+  }
+
   void _showAlertBadCredentials(LoginPresenter loginPresenter) async {
     await showDialog(
         context: context,
@@ -123,11 +131,4 @@ class __FormState extends State<_Form> {
         });
   }
 
-  void _checkLoginStatus(LoginPresenter loginPresenter) {
-    if (loginPresenter.isLoginOk != null && !loginPresenter.isLoginOk) {
-      _showAlertBadCredentials(loginPresenter);
-    } else {
-      Navigator.pushNamed(context, 'welcome');
-    }
-  }
 }
