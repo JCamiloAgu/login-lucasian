@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:login_lucasian/core/error/dio/dio_error_message_login_strategy.dart';
+import 'package:login_lucasian/core/result/result.dart';
 import 'package:login_lucasian/features/login/data/data_sources/login_data_source_contract.dart';
 import 'package:login_lucasian/features/login/domain/repositoy/login_repository_contract.dart';
 import 'package:login_lucasian/features/login/domain/request/login_request.dart';
@@ -10,7 +14,14 @@ class LoginRepository implements LoginRepositoryContract {
   LoginRepository({@required this.loginDataSourceContract});
 
   @override
-  Future<LoginResponse> doLogin(LoginRequest loginRequest) async {
-    return await loginDataSourceContract.doLogin(loginRequest);
+  Future<Result<LoginResponse>> doLogin(LoginRequest loginRequest) async {
+    final response = await loginDataSourceContract.doLogin(loginRequest);
+    if (response.statusCode == 200) {
+      return Success(
+          loginResponseFromJson(json.encode(response.data)), Status.ok);
+    } else {
+      return Error(null, Status.fail,
+          DioErrorMessageLoginStrategy(response.data['error']));
+    }
   }
 }

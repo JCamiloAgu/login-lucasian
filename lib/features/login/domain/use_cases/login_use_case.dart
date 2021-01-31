@@ -1,3 +1,4 @@
+import 'package:login_lucasian/core/result/result.dart';
 import 'package:login_lucasian/features/login/domain/repositoy/login_repository_contract.dart';
 import 'package:login_lucasian/features/login/domain/request/login_request.dart';
 import 'package:login_lucasian/features/login/domain/response/login_response.dart';
@@ -10,7 +11,7 @@ class LoginUseCase implements LoginUseCaseContract {
   LoginUseCase(this.loginRepositoryContract);
 
   @override
-  Future<LoginResponse> doLogin(LoginRequest loginRequest) async {
+  Future<Result<LoginResponse>> doLogin(LoginRequest loginRequest) async {
     return await loginRepositoryContract.doLogin(loginRequest);
   }
 }

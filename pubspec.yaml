@@ -31,7 +31,7 @@ dependencies:
   provider: ^4.3.3
   get_it: ^4.0.2
   progress_dialog: ^1.2.4
-
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

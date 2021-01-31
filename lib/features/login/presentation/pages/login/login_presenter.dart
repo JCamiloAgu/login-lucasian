@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_lucasian/core/result/result.dart';
 import 'package:login_lucasian/features/login/domain/request/login_request.dart';
 import 'package:login_lucasian/features/login/domain/use_cases/login_use_case_contract.dart';
 import 'package:login_lucasian/features/login/domain/use_cases/use_case_to_base_64.dart';
@@ -55,13 +56,9 @@ class LoginPresenter extends ChangeNotifier {
 
   Future<void> doLogin(LoginRequest loginRequest) async {
     isLoading = true;
-    if (validateFields(loginRequest)) {
-      loginRequest.password = useCaseToBase64.toBase64(loginRequest.password);
-      LoginResponse loginResponse =
-          await loginUseCaseContract.doLogin(loginRequest);
 
-      isLoginOk = loginResponse.isLoginOk;
-      badLoginMessage = loginResponse.message;
+    if (validateFields(loginRequest)) {
+      await _doLoginRequest(loginRequest);
     }
 
     isLoading = false;
@@ -79,6 +76,20 @@ class LoginPresenter extends ChangeNotifier {
     }
 
     return isValidLoginRequest;
+  }
+
+  Future<void> _doLoginRequest(LoginRequest loginRequest) async {
+    loginRequest.password = useCaseToBase64.toBase64(loginRequest.password);
+    Result<LoginResponse> loginResponse =
+        await loginUseCaseContract.doLogin(loginRequest);
+
+    isLoginOk = loginResponse.status == Status.ok;
+
+    if (loginResponse is Error) {
+      badLoginMessage = (loginResponse as Error).error;
+    } else {
+      badLoginMessage = '';
+    }
   }
 
   bool validateEmail(String email) {

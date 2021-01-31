@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:login_lucasian/features/login/domain/request/login_request.dart';
+import 'package:login_lucasian/routes/aplication_routes.dart';
 import 'package:login_lucasian/shared/widgets/auth_button.dart';
 import 'package:login_lucasian/shared/widgets/bezier/bezier_container.dart';
 import 'package:login_lucasian/shared/widgets/input_with_label.dart';
@@ -14,25 +15,23 @@ class NewLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
-    return Scaffold(
-      body: Container(
-        height: height,
-        child: Stack(
-          children: [
-            Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer(),
-            ),
-            MultiProvider(
-              providers: [
-                ChangeNotifierProvider(
-                    create: (context) => sl<LoginPresenter>()),
-              ],
-              child: _Body(),
-            )
-          ],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => sl<LoginPresenter>()),
+      ],
+      child: Scaffold(
+        body: Container(
+          height: height,
+          child: Stack(
+            children: [
+              Positioned(
+                top: -height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer(),
+              ),
+              _Body()
+            ],
+          ),
         ),
       ),
     );
@@ -42,13 +41,13 @@ class NewLoginPage extends StatelessWidget {
 class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loginPresenter = Provider.of<LoginPresenter>(context);
+    final loginPresenter = Provider.of<LoginPresenter>(context, listen: false);
 
     final accentColor = Theme.of(context).accentColor;
     final height = MediaQuery.of(context).size.height;
 
     return loginPresenter.isLoading
-        ? Expanded(child: Center(child: CircularProgressIndicator()))
+        ? Center(child: CircularProgressIndicator())
         : Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -71,7 +70,16 @@ class _Body extends StatelessWidget {
     return Text(
       'LOGIN',
       style: TextStyle(
-          fontSize: 30, fontWeight: FontWeight.w700, color: accentColor),
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: accentColor.withRed(255),
+          shadows: <BoxShadow>[
+            BoxShadow(
+                color: Colors.white,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ]),
     );
   }
 
@@ -151,7 +159,9 @@ class __FormState extends State<_Form> {
         SizedBox(height: 20),
         AuthButton(
           text: 'Ingresar',
-          onTap: isAnyInputEmpty() || !loginPresenter.isValidEmail || !loginPresenter.isValidPassword
+          onTap: isAnyInputEmpty() ||
+                  !loginPresenter.isValidEmail ||
+                  !loginPresenter.isValidPassword
               ? null
               : () async {
                   await loginPresenter
@@ -168,12 +178,11 @@ class __FormState extends State<_Form> {
     if (loginPresenter.isLoginOk != null && !loginPresenter.isLoginOk) {
       _showAlertBadCredentials(loginPresenter);
     } else {
-      Navigator.pushNamed(context, 'welcome');
+      Navigator.pushNamed(context, welcomeRoute);
     }
   }
 
-  void _showAlertBadCredentials(
-      LoginPresenter loginPresenter) async {
+  void _showAlertBadCredentials(LoginPresenter loginPresenter) async {
     await showDialog(
         context: context,
         builder: (context) {
