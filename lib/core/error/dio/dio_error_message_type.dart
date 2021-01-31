@@ -1,0 +1,3 @@
+enum DioErrorMessageType{
+  LOGIN
+}

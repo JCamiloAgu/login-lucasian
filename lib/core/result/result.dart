@@ -1,4 +1,4 @@
-import 'package:login_lucasian/core/error/dio/dio_error_message_strategy.dart';
+import 'package:login_lucasian/core/error/dio/strategy/dio_error_message_strategy.dart';
 
 enum Status { ok, fail }
 
@@ -28,10 +28,10 @@ class Success<T> extends Result<T> {
 class Error<T> extends Result<T> {
   String _error;
 
-  get error => _error;
+  String get error => _error;
 
   Error(T data, Status dataStatus,
       DioErrorMessageStrategy dioErrorMessageStrategy)
-      : _error = dioErrorMessageStrategy.convertErrorToReadableString(),
+      : _error = dioErrorMessageStrategy?.convertErrorToReadableString(),
         super(dataStatus, data);
 }

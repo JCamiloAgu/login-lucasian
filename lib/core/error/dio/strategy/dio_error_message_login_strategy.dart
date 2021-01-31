@@ -1,4 +1,4 @@
-import 'package:login_lucasian/core/error/dio/dio_error_message_strategy.dart';
+import 'dio_error_message_strategy.dart';
 
 class DioErrorMessageLoginStrategy implements DioErrorMessageStrategy {
   final Map<String, dynamic> error;

@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:login_lucasian/core/error/dio/factory/dio_error_message_factory.dart';
 import 'package:login_lucasian/features/login/data/remote_data_sources/login_data_source.dart';
 import 'package:login_lucasian/features/login/data/repositories/login_repository.dart';
 import 'package:login_lucasian/features/login/domain/use_cases/login_use_case.dart';
@@ -6,19 +8,23 @@ import 'package:login_lucasian/features/login/domain/use_cases/use_case_to_base_
 import 'package:login_lucasian/features/login/presentation/pages/login/login_form_validator/login_form_validator.dart';
 import 'package:login_lucasian/features/login/presentation/pages/login/login_presenter.dart';
 
-GetIt locator = GetIt.instance;
+GetIt sl = GetIt.instance;
 
 Future<void> setupInjector() async {
-  locator.registerFactory(() => LoginDataSource());
+  sl.registerLazySingleton(() => Dio());
+  sl.registerLazySingleton(() => DioErrorMessageFactory());
 
-  locator.registerFactory(() => LoginRepository(
-      loginDataSourceContract: locator.get<LoginDataSource>()));
+  sl.registerSingleton(() => LoginDataSource(dio: sl.get<Dio>()));
 
-  locator.registerFactory(() => LoginUseCase(locator.get<LoginRepository>()));
+  sl.registerSingleton(() => LoginRepository(
+      loginDataSourceContract: sl.get<LoginDataSource>(),
+      dioErrorMessageFactoryContract: sl.get<DioErrorMessageFactory>()));
 
-  locator.registerFactory(() => UseCaseToBase64());
-  locator.registerLazySingleton(() => LoginFormValidator());
+  sl.registerFactory(() => LoginUseCase(sl.get<LoginRepository>()));
 
-  locator.registerFactory(() => LoginPresenter(locator.get<LoginUseCase>(),
-      locator.get<LoginFormValidator>(), locator.get<UseCaseToBase64>()));
+  sl.registerFactory(() => UseCaseToBase64());
+  sl.registerLazySingleton(() => LoginFormValidator());
+
+  sl.registerFactory(() => LoginPresenter(sl.get<LoginUseCase>(),
+      sl.get<LoginFormValidator>(), sl.get<UseCaseToBase64>()));
 }

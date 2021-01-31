@@ -4,7 +4,10 @@
 
 import 'dart:convert';
 
-LoginResponse loginResponseFromJson(String str) => LoginResponse.fromJson(json.decode(str));
+LoginResponse loginResponseFromJson(String str) =>
+    str != 'null' && str.length > 0
+        ? LoginResponse.fromJson(json.decode(str))
+        : null;
 
 String loginResponseToJson(LoginResponse data) => json.encode(data.toJson());
 
@@ -24,18 +27,18 @@ class LoginResponse {
   bool registered;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-    localId: json["localId"],
-    email: json["email"],
-    displayName: json["displayName"],
-    idToken: json["idToken"],
-    registered: json["registered"],
-  );
+        localId: json["localId"],
+        email: json["email"],
+        displayName: json["displayName"],
+        idToken: json["idToken"],
+        registered: json["registered"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "localId": localId,
-    "email": email,
-    "displayName": displayName,
-    "idToken": idToken,
-    "registered": registered,
-  };
+        "localId": localId,
+        "email": email,
+        "displayName": displayName,
+        "idToken": idToken,
+        "registered": registered,
+      };
 }
