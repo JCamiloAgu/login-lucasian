@@ -28,15 +28,21 @@ class InputWithLabel extends StatelessWidget {
           children: [
             Container(
                 margin: EdgeInsets.only(bottom: 10),
-                child: Align(alignment: AlignmentDirectional.centerStart,child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)))),
+                child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(label,
+                        style: TextStyle(fontWeight: FontWeight.bold)))),
             TextField(
               autocorrect: false,
               controller: textEditingController,
               keyboardType: textInputType,
               obscureText: isPassword,
               onChanged: onChange,
-              decoration: InputDecoration(errorText: errorText,
-              fillColor: Color(0xffF3F3F3), filled: true, border: InputBorder.none),
+              decoration: InputDecoration(
+                  errorText: errorText,
+                  fillColor: Color(0xffF3F3F3),
+                  filled: true,
+                  border: InputBorder.none),
             )
           ],
         ),

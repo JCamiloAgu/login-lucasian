@@ -1,6 +1,6 @@
 class LoginFormValidator {
   bool isValidEmail(String email) {
-    if (email.isEmpty || email == null || email.trim().length >= 60)
+    if (email == null || email.isEmpty || email.trim().length >= 60)
       return false;
 
     Pattern pattern =
@@ -11,6 +11,6 @@ class LoginFormValidator {
   }
 
   bool isValidPassword(String password) {
-    return password.isNotEmpty && password.length <= 15;
+    return password != null && password.isNotEmpty && password.length <= 15;
   }
 }

@@ -159,7 +159,7 @@ class __FormState extends State<_Form> {
         SizedBox(height: 20),
         AuthButton(
           text: 'Ingresar',
-          onTap: isAnyInputEmpty() ||
+          onTap: loginPresenter.isAnyInputEmpty(emailCtrl.text, passCtrl.text) ||
                   !loginPresenter.isValidEmail ||
                   !loginPresenter.isValidPassword
               ? null
@@ -199,5 +199,4 @@ class __FormState extends State<_Form> {
         });
   }
 
-  bool isAnyInputEmpty() => emailCtrl.text.isEmpty || passCtrl.text.isEmpty;
 }

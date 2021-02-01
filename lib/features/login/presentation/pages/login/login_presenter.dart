@@ -111,4 +111,6 @@ class LoginPresenter extends ChangeNotifier {
     }
     return true;
   }
+
+  bool isAnyInputEmpty(String email, String pass) => email.isEmpty || pass.isEmpty;
 }
